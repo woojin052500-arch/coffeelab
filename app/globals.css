@@ -574,6 +574,29 @@ input[type="range"]::-moz-range-thumb { width: 17px; height: 17px; border: 0; bo
 .fl__fig img { width: 100%; height: 100%; object-fit: cover; animation: fin 0.85s var(--e) both; }
 @keyframes fin { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: scale(1.05); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
 
+/* 저해상도 컷아웃(과실·패키지, 원본 300px 안팎)은 채워서 자르지 않는다.
+   cover로 화면 폭까지 늘리면 뭉개지고 세로로 긴 패키지는 잘려버린다.
+   바탕색 위에 형태 그대로 얹으면 확대율이 절반으로 줄고 구도도 살아난다.
+   --c 가 있으면(향미 라인) 그 색을, 없으면 중립 톤을 바탕으로 쓴다. */
+/* 배경을 지운 컷아웃(scripts/cutout.py)을 브랜드 바탕 위에 얹는다.
+   사진 안에 또 사진이 든 것처럼 보이지 않으니 여백을 줄이고 크게 배치할 수 있다.
+   --c 가 있으면 그 색을, 없으면 중립 톤을 바탕으로 쓴다. */
+.fig--object {
+  position: relative;
+  background: color-mix(in srgb, var(--c, var(--line-2)) 13%, var(--soft));
+}
+.fig--object img {
+  position: absolute;
+  inset: clamp(14px, 3.2vw, 30px);
+  margin: auto;                     /* inset + margin auto → 항상 가운데, 넘치지 않음 */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 0;
+}
+
 .fl__en { margin: 0; font-family: var(--sans); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); }
 .fl__ko { margin: 12px 0 0; font-size: clamp(30px, 3.8vw, 50px); font-weight: 700; letter-spacing: -0.05em; }
 .fl__rule { height: 3px; width: 72px; margin-top: 20px; background: var(--c, var(--red)); transition: background 0.5s ease; }
@@ -629,7 +652,7 @@ input[type="range"]::-moz-range-thumb { width: 17px; height: 17px; border: 0; bo
 .ed:nth-child(2) { margin-top: clamp(18px, 3.5vw, 52px); }
 .ed:nth-child(3) { margin-top: clamp(36px, 7vw, 104px); }
 .ed__f { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #faf2e7; border-radius: 4px; }
-.ed__f img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: clamp(14px, 2vw, 30px) 0; transition: transform 1.2s var(--e); }
+.ed__f img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: clamp(8px, 1.4vw, 18px); transition: transform 1.2s var(--e); }
 .ed:hover .ed__f img { transform: scale(1.045); }
 .ed__b { padding-top: 18px; margin-top: 18px; border-top: 1px solid var(--line); display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .ed__t { margin: 0; font-size: clamp(17px, 1.7vw, 22px); font-weight: 700; letter-spacing: -0.045em; }
@@ -999,7 +1022,14 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
     margin-inline: calc(var(--pad) * -1);
     border-radius: 0;
   }
-  .fl__fig { flex: 0 1 auto; height: 30svh; }
+  /* 사진 칸은 남는 높이에 맞춰 줄어들되 바닥(88px)은 지킨다. 고정으로 두면
+     글이 하단 바 밑으로 밀리고, 자유롭게 두면 예전처럼 0px 까지 찌그러진다. */
+  .fl__fig {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 88px;
+    max-height: clamp(118px, 23svh, 210px);
+  }
   .flow__tx, .fl__tx { flex: 0 0 auto; order: 0; }
   .flow__h { margin: 0; }
   .flow__d, .fl__d { max-width: none; }
@@ -1011,7 +1041,26 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   .fl__pair p { margin-top: 6px; font-size: 15px; }
 }
 
-@media (max-width: 900px) and (max-height: 720px) {
-  .fl__fig { height: 24svh; }
+@media (max-width: 900px) and (max-height: 780px) {
   .fl__pair { display: none; }
+  .fl__d { margin-top: 12px; }
+  .mt { margin-top: 14px; gap: 7px; }
+  .mt__k, .mt__v { font-size: 12.5px; }
+  .fl__ko { font-size: 25px; }
+  .fl__rule { margin-top: 11px; width: 60px; }
 }
+
+/* 아주 짧은 화면(SE 등)에서는 한 단계 더 조여 패널이 넘치지 않게 한다 */
+@media (max-width: 900px) and (max-height: 640px) {
+  .fl__fig { min-height: 76px; max-height: clamp(88px, 16svh, 140px); margin-bottom: 12px; }
+  .fl__ko { font-size: 21px; }
+  .fl__rule { margin-top: 8px; }
+  .fl__d { font-size: 13px; line-height: 1.6; margin-top: 9px; }
+  .mt { margin-top: 10px; gap: 4px; }
+  .mt__k, .mt__v { font-size: 12px; }
+  .tab { min-height: 44px; }
+  .pin__bar { padding-bottom: 9px; }
+  .flow__h { font-size: 20px; }
+  .flow__d { font-size: 13px; line-height: 1.72; }
+}
+

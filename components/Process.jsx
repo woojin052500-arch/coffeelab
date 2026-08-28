@@ -61,7 +61,10 @@ export default function Process() {
             <div className="pin__panels">
               {STEPS.map((x, n) => (
                 <article className={`flow__panel ${n === i ? "on" : ""}`} key={x.n}>
-                  <div className="flow__fig">
+                  <div
+                    className={`flow__fig ${x.fit === "contain" ? "fig--object" : ""}`}
+                    style={x.tint ? { "--c": x.tint } : undefined}
+                  >
                     <img src={x.img} alt={`${x.n} ${x.t}`} loading="lazy" />
                   </div>
                   <div className="flow__tx">

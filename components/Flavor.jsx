@@ -74,7 +74,7 @@ export default function Flavor() {
             <div className="pin__panels" ref={box}>
               {FLAVORS.map((x, n) => (
                 <div className={`fl ${n === i ? "on" : ""}`} key={x.key}>
-                  <figure className="fl__fig">
+                  <figure className="fl__fig fig--object" style={{ "--c": x.color }}>
                     <img src={x.img} alt={`${x.ko} 발효 원두`} loading="lazy" />
                   </figure>
 
