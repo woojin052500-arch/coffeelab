@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NAV } from "@/lib/content";
+import { COMPANY, NAV } from "@/lib/content";
 
 export default function Header() {
   const [on, setOn] = useState(false);
@@ -47,6 +47,10 @@ export default function Header() {
     <>
       <header className={`hdr ${on ? "on" : ""}`}>
         <div className="hdr__in">
+          <a href="#top" className="hdr__brand" onClick={() => setOpen(false)}>
+            {COMPANY.name}
+          </a>
+
           <nav className="nav">
             {NAV.map((n) => (
               <a key={n.id} href={`#${n.id}`} className={cur === n.id ? "cur" : ""}>

@@ -179,12 +179,12 @@ export default function Proof() {
         <div className="ph">
           <Rv as="figure" style={{ margin: 0 }}>
             <div className="ph__i">
-              <img src="/img/test-room.webp" alt="커피 전공자들이 참여한 블라인드 테스트 현장" loading="lazy" className="photo" />
+              <img src="/img/test-room.webp" alt="커피 전공자들이 참여한 블라인드 테스트 현장" loading="lazy" />
             </div>
           </Rv>
           <Rv as="figure" style={{ margin: 0 }} delay={90}>
             <div className="ph__i">
-              <img src="/img/cupping.webp" alt="번호로만 구분된 커핑 볼이 놓인 테이블" loading="lazy" className="photo" />
+              <img src="/img/cupping.webp" alt="번호로만 구분된 커핑 볼이 놓인 테이블" loading="lazy" />
             </div>
           </Rv>
         </div>

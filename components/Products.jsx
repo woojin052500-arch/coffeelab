@@ -27,7 +27,7 @@ export default function Products() {
           {EDITIONS.map((e, i) => (
             <Rv className="ed" key={e.t} delay={i * 90}>
               <div className="ed__f">
-                <img src={e.img} alt={`${e.t} 패키지`} loading="lazy" className="photo" />
+                <img src={e.img} alt={`${e.t} 패키지`} loading="lazy" />
               </div>
               <div className="ed__b">
                 <h3 className="ed__t">{e.t}</h3>
