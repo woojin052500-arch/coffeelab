@@ -30,15 +30,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <head>
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href="/fonts/ibm-plex-sans-kr-korean-400-normal.woff2"
-          crossOrigin=""
-        />
-      </head>
       <body>{children}</body>
     </html>
   );

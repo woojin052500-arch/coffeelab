@@ -1,11 +1,18 @@
+import { COMPANY } from "@/lib/content";
+
 export default function Footer() {
+  const c = COMPANY;
   return (
     <footer>
       <div className="wrap">
         <div className="foot">
-          <span>FERMENT COFFEE LAB</span>
-          <span>지역 특산물 발효 기반 생두 향미 재설계 · 표준화 기술</span>
-          <span>© 2026</span>
+          <span>
+            {c.name} · {c.ceo} {c.role}
+          </span>
+          <span>
+            {c.tel} · {c.email}
+          </span>
+          <span>© 2026 {c.en}</span>
         </div>
       </div>
     </footer>

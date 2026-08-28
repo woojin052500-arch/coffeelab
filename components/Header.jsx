@@ -47,12 +47,6 @@ export default function Header() {
     <>
       <header className={`hdr ${on ? "on" : ""}`}>
         <div className="hdr__in">
-          <a href="#top" className="mark" onClick={() => setOpen(false)}>
-            <span className="mark__dot" />
-            퍼먼트 커피랩
-            <span className="mark__en">Ferment Coffee Lab</span>
-          </a>
-
           <nav className="nav">
             {NAV.map((n) => (
               <a key={n.id} href={`#${n.id}`} className={cur === n.id ? "cur" : ""}>
@@ -60,6 +54,10 @@ export default function Header() {
               </a>
             ))}
           </nav>
+
+          <a href="#contact" className="nav__cta btn">
+            문의하기
+          </a>
 
           <button
             type="button"

@@ -26,16 +26,7 @@ function Slider({ label, unit, min, max, step = 1, value, onChange }) {
         onChange={(e) => onChange(Number(e.target.value))}
         aria-label={label}
       />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontFamily: "var(--mono)",
-          fontSize: 9.5,
-          color: "var(--ink-3)",
-          letterSpacing: "0.08em",
-        }}
-      >
+      <div className="sl__sc">
         <span>
           {min}
           {unit}
@@ -95,7 +86,6 @@ export default function Design() {
     <section className="sec" id="design">
       <div className="wrap">
         <Head
-          ix="04 / 향미 설계"
           title={
             <>
               조건을 바꾸면 <b>컵이 바뀝니다</b>
@@ -107,7 +97,7 @@ export default function Design() {
         <Rv className="sim">
           <div className="sim__ctl">
             <div>
-              <p className="lbl" style={{ marginBottom: 10 }}>
+              <p className="lbl" style={{ marginBottom: 12 }}>
                 지역 과실
               </p>
               <div className="sim__fruit">
@@ -148,10 +138,6 @@ export default function Design() {
                 </div>
               ))}
             </div>
-
-            <p className="disc">
-              개념 데모입니다. 실제 배합비와 균주, 공정 데이터는 공개하지 않습니다.
-            </p>
           </div>
         </Rv>
       </div>

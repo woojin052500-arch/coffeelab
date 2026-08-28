@@ -44,23 +44,12 @@ export function Rv({ children, delay = 0, as: Tag = "div", className = "", ...re
   );
 }
 
-export function Head({ ix, title, desc, children }) {
+export function Head({ title, desc, desc2 }) {
   return (
-    <div className="head">
-      <Rv className="head__ix" as="p">
-        {ix}
-      </Rv>
-      <div>
-        <Rv delay={60}>
-          <h2 className="head__t">{title}</h2>
-        </Rv>
-        {desc ? (
-          <Rv delay={120}>
-            <p className="head__d">{desc}</p>
-          </Rv>
-        ) : null}
-        {children}
-      </div>
-    </div>
+    <Rv className="head">
+      <h2 className="head__t">{title}</h2>
+      {desc ? <p className="head__d">{desc}</p> : null}
+      {desc2 ? <p className="head__d">{desc2}</p> : null}
+    </Rv>
   );
 }

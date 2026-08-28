@@ -7,10 +7,9 @@ export default function Local() {
   const [ref, seen] = useInView(0.25);
 
   return (
-    <section className="sec" id="local">
+    <section className="sec sec--soft" id="local">
       <div className="wrap">
         <Head
-          ix="06 / 지역 상생"
           title={
             <>
               지역의 들에서 <b>특별한 한 잔</b>까지

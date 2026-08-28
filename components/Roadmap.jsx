@@ -3,10 +3,9 @@ import { Head, Rv } from "./util";
 
 export default function Roadmap() {
   return (
-    <section className="sec sec--panel" id="roadmap">
+    <section className="sec sec--soft" id="roadmap">
       <div className="wrap">
         <Head
-          ix="09 / 로드맵"
           title={
             <>
               레시피에서 <b>플랫폼</b>으로

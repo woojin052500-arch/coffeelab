@@ -10,7 +10,7 @@ function MarketBars() {
   return (
     <div className="chart" ref={ref}>
       <div className="chart__hd">
-        <p className="chart__t">글로벌 스페셜티 커피 시장 규모</p>
+        <h3 className="chart__t">글로벌 스페셜티 커피 시장 규모</h3>
         <p className="chart__src">단위 억 달러 · credence research</p>
       </div>
 
@@ -39,14 +39,14 @@ function MarketBars() {
 
       <div className="legend">
         <span>
-          <i style={{ background: "var(--ink)" }} />
+          <i style={{ background: "var(--red)" }} />
           실적
         </span>
         <span>
           <i style={{ background: "var(--line-2)" }} />
           전망
         </span>
-        <span style={{ color: "var(--ink)" }}>6년간 +75%</span>
+        <span style={{ color: "var(--red)" }}>6년간 +75%</span>
       </div>
     </div>
   );
@@ -55,17 +55,17 @@ function MarketBars() {
 function Scope() {
   const [ref, seen] = useInView(0.3);
   const rings = [
-    { r: 140, fill: "#eae8e3", text: "var(--ink)" },
-    { r: 104, fill: "#d6d3cc", text: "var(--ink)" },
-    { r: 70, fill: "#a8a49b", text: "#fff" },
-    { r: 40, fill: "var(--ink)", text: "#fff" },
+    { r: 140, fill: "#efe8dc", text: "var(--ink)" },
+    { r: 104, fill: "#ddd0bd", text: "var(--ink)" },
+    { r: 70, fill: "#c08a6a", text: "#fff" },
+    { r: 40, fill: "var(--red)", text: "#fff" },
   ];
   const BOT = 292;
 
   return (
     <div className="chart" ref={ref}>
       <div className="chart__hd">
-        <p className="chart__t">목표 시장</p>
+        <h3 className="chart__t">목표 시장</h3>
         <p className="chart__src">TAM / SAM / SOM / LAM</p>
       </div>
 
@@ -109,22 +109,10 @@ function Scope() {
         })}
       </svg>
 
-      <div style={{ marginTop: 14, display: "grid", gap: 7 }}>
+      <div className="scope__l">
         {SCOPE.map((s) => (
-          <p
-            key={s.k}
-            style={{
-              margin: 0,
-              display: "flex",
-              gap: 12,
-              fontSize: 12.5,
-              color: "var(--ink-2)",
-              lineHeight: 1.6,
-            }}
-          >
-            <span className="lbl" style={{ minWidth: 34 }}>
-              {s.k}
-            </span>
+          <p key={s.k}>
+            <span className="lbl">{s.k}</span>
             {s.d}
           </p>
         ))}
@@ -138,7 +126,6 @@ export default function Why() {
     <section className="sec" id="why">
       <div className="wrap">
         <Head
-          ix="02 / 왜 지금인가"
           title={
             <>
               버려지는 과일과 <b>평범한 생두</b>가 만나는 지점
