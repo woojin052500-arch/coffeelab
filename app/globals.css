@@ -256,12 +256,12 @@ section[id] { scroll-margin-top: var(--nav); }
 .drawer a i { font-family: var(--sans); font-style: normal; font-size: 10px; letter-spacing: 0.14em; color: var(--red); }
 
 /* 데스크톱은 좌측 내비게이션이 브랜드 자리를 대신한다 */
-.hdr__brand { display: none; font-size: 17px; font-weight: 700; letter-spacing: -0.045em; }
+.hdr__brand { display: none; align-items: center; min-height: 44px; font-size: 17px; font-weight: 700; letter-spacing: -0.045em; }
 
 @media (max-width: 1080px) {
   .nav { display: none; }
   .burger { display: grid; }
-  .hdr__brand { display: block; margin-right: auto; }
+  .hdr__brand { display: inline-flex; margin-right: auto; }
 }
 
 /* ==========================================================================
@@ -833,6 +833,10 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 @media (max-width: 900px) {
   :root { --nav: 62px; }
 
+  /* 반투명 헤더는 폰에서 뒤 글자가 그대로 비쳐 지저분하다. 불투명하게 둔다
+     (블러 처리도 빠져 스크롤이 가벼워진다). */
+  .hdr { background: var(--paper); backdrop-filter: none; -webkit-backdrop-filter: none; }
+
   .sec { padding-block: clamp(56px, 13vw, 88px); }
 
   /* hero: 이미지 → 문구 → 슬라이더 컨트롤이 첫 화면에 모두 들어오도록
@@ -876,25 +880,32 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 
   .pr { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; }
 
-  /* editions: swipeable card row instead of a cramped 3-up grid */
-  .eds {
-    display: flex;
-    gap: 12px;
-    margin-inline: calc(var(--pad) * -1);
-    padding-inline: var(--pad);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--pad);
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+  /* 지역 에디션: 폰에서는 목록형으로 쌓는다. 세 칸으로 나누면 상자가 60px 대로
+     작아지고, 가로 스크롤은 마지막 카드에서 앞 카드가 걸쳐 보인다.
+     사진을 왼쪽에 두면 셋 다 한눈에 들어오고 상자도 두 배로 커진다. */
+  .eds { grid-template-columns: 1fr; gap: 0; }
+  .ed {
+    display: grid;
+    grid-template-columns: 42% minmax(0, 1fr);
+    column-gap: clamp(14px, 4vw, 20px);
+    align-items: center;
+    padding-block: clamp(16px, 4vw, 22px);
+    border-bottom: 1px solid var(--line);
   }
-  .eds::-webkit-scrollbar { display: none; }
-  .ed { flex: 0 0 68%; scroll-snap-align: start; }
+  .ed:first-child { border-top: 1px solid var(--line); }
   .ed:nth-child(2), .ed:nth-child(3) { margin-top: 0; }
-  .ed__f { aspect-ratio: 4 / 5; }
-  .ed__b { padding-top: 14px; margin-top: 14px; }
-  .ed__t { font-size: 15px; }
-  .ed__d { font-size: 12.5px; line-height: 1.66; }
+  /* 상자가 세로로 길어 칸도 길어야 크게 보인다 */
+  .ed__f { grid-column: 1; grid-row: 1 / 3; aspect-ratio: 5 / 8; }
+  .ed__b {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .ed__d { grid-column: 2; grid-row: 2; align-self: start; font-size: 13px; line-height: 1.66; }
+  .ed__t { font-size: 17px; }
 
   .proof { row-gap: 40px; }
   .radar { max-width: 340px; }
@@ -941,7 +952,6 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   .dots2 button { width: 30px; height: 3px; }
   .fl__pair { gap: 18px 32px; }
 
-  .ed { flex-basis: 76%; }
 }
 
 @media (max-width: 380px) {
