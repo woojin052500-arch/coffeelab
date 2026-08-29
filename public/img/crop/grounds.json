@@ -1,14 +1,14 @@
 {
   "pkg-jeju": {
-    "top": "#fffdeb",
+    "top": "#fffce9",
     "bottom": "#fffff9"
   },
   "pkg-nonsan": {
-    "top": "#ffedd4",
-    "bottom": "#fce8e6"
+    "top": "#fff3db",
+    "bottom": "#fff4f0"
   },
   "pkg-wonju": {
-    "top": "#fce3cd",
-    "bottom": "#f6e9e8"
+    "top": "#ffe9d0",
+    "bottom": "#fdf0ee"
   }
 }
