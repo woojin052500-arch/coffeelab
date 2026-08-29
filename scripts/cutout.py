@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""제품·과실 사진의 배경을 지우고 피사체에 맞춰 잘라낸다.
+"""과실 사진의 배경을 지우고 피사체에 맞춰 잘라낸다.
 
 원본은 피사체가 프레임의 절반 남짓만 차지하고 나머지는 빈 스튜디오 배경이라,
 화면 폭에 맞춰 늘리면 여백만 커지고 해상도는 낭비된다. GrabCut 으로 배경을
@@ -30,15 +30,7 @@ MARGIN = 0.035
 # 하나로 정하지 않고 후보를 모두 돌려 가장 많이 살아남는 마스크를 고른다.
 INSETS = (0.008, 0.012, 0.02, 0.03, 0.05, 0.06)
 
-TARGETS = [
-    "fruit-strawberry",
-    "fruit-grape",
-    "fruit-apple",
-    "pkg-jeju",
-    "pkg-nonsan",
-    "pkg-wonju",
-    "package-all",
-]
+TARGETS = ["fruit-strawberry", "fruit-grape", "fruit-apple"]
 
 
 def _mask(bgr, inset):

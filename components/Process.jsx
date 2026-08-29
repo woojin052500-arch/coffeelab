@@ -63,7 +63,7 @@ export default function Process() {
                 <article className={`flow__panel ${n === i ? "on" : ""}`} key={x.n}>
                   <div
                     className={`flow__fig ${x.fit === "contain" ? "fig--object" : ""}`}
-                    style={x.tint ? { "--c": x.tint } : undefined}
+                    style={x.tint ? { "--c": x.tint } : x.bg ? { "--bg": x.bg } : undefined}
                   >
                     <img src={x.img} alt={`${x.n} ${x.t}`} loading="lazy" />
                   </div>
