@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { COMPANY } from "@/lib/content";
+import { openTest } from "./TestLauncher";
 
 export default function MobileBar() {
   const [on, setOn] = useState(false);
@@ -31,6 +32,17 @@ export default function MobileBar() {
         </svg>
         이메일
       </a>
+      <button type="button" className="mbar__a mbar__a--dark" onClick={openTest}>
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path
+            d="M3.4 2.2h7.1v3.3a3.55 3.55 0 0 1-7.1 0V2.2Zm7.4 1h.9a1.5 1.5 0 0 1 0 3h-.9M2.6 12.8h9.8"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          />
+        </svg>
+        취향 테스트
+      </button>
     </div>
   );
 }

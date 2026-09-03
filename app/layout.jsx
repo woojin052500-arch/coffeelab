@@ -1,37 +1,99 @@
 import "./globals.css";
+import Schema from "./Schema";
+import {
+  SITE_URL,
+  SITE_NAME,
+  TITLE,
+  DESC,
+  KEYWORDS,
+  OG_IMAGE,
+  OG_IMAGE_W,
+  OG_IMAGE_H,
+} from "@/lib/site";
 
 export const metadata = {
-  title: "퍼먼트 커피랩 — 생두에서 설계하는 향미",
-  description:
-    "지역 특산물 발효를 기반으로 생두 단계에서 커피 향미를 재설계하고 표준화하는 기술 브랜드, 퍼먼트 커피랩(Ferment Coffee Lab).",
-  keywords: [
-    "퍼먼트 커피랩",
-    "생두 발효",
-    "스페셜티 커피",
-    "무산소 발효",
-    "지역 특산물",
-    "업사이클링",
-  ],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: DESC,
+  keywords: KEYWORDS,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "food & drink",
+  alternates: {
+    canonical: "/",
+    languages: { "ko-KR": "/" },
+  },
+  formatDetection: { telephone: true, email: true, address: false },
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
+  },
   openGraph: {
-    title: "퍼먼트 커피랩 — 생두에서 설계하는 향미",
-    description:
-      "지역 특산물과 효모로 생두 단계의 향미 구조를 재설계합니다. 표준화된 공정으로 같은 향미를 반복 생산합니다.",
     type: "website",
     locale: "ko_KR",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESC,
+    images: [
+      {
+        url: OG_IMAGE,
+        width: OG_IMAGE_W,
+        height: OG_IMAGE_H,
+        alt: `${SITE_NAME} 발효 실험실`,
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESC,
+    images: [OG_IMAGE],
+  },
+  // 서치콘솔·네이버 서치어드바이저 소유 확인 코드를 받으면 아래를 채운다.
+  // verification: { google: "...", other: { "naver-site-verification": "..." } },
 };
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 5,
   viewportFit: "cover",
-  themeColor: "#faf7f1",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf7f1" },
+    { media: "(prefers-color-scheme: dark)", color: "#faf7f1" },
+  ],
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <head>
+        {/* 첫 화면 사진을 먼저 받아 LCP를 앞당긴다 */}
+        <link rel="preload" as="image" href="/img/lab.webp" fetchPriority="high" />
+        <Schema />
+      </head>
+      <body>
+        <a href="#top" className="skip">
+          본문 바로가기
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
