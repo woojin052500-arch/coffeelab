@@ -1,10 +1,14 @@
-import { COMPANY } from "@/lib/content";
+import { BG, COMPANY } from "@/lib/content";
 import { Head, Rv } from "./util";
 
 export default function Contact() {
   const c = COMPANY;
   return (
-    <section className="cta" id="contact">
+    <section
+      className="cta sec--photo"
+      id="contact"
+      style={{ "--bgimg": `url(${BG.contact})` }}
+    >
       <div className="wrap">
         <Head
           title="시그니처가 필요한 카페와 함께합니다"

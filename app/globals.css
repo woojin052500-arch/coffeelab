@@ -1669,3 +1669,167 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 
 /* 하단 고정 바 3분할 */
 .mbar__a--dark { background: var(--ink); color: var(--paper); }
+
+/* ==========================================================================
+   사진 모자이크 — 한 섹션에 세 장
+   ========================================================================== */
+
+.mos {
+  margin-top: clamp(44px, 5.5vw, 84px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  gap: clamp(12px, 1.8vw, 24px);
+}
+/* 첫 장이 왼쪽에서 두 줄을 차지한다 */
+.mos__i--lg { grid-row: span 2; }
+/* flip 이면 큰 칸을 오른쪽으로 보낸다 */
+.mos--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr); }
+.mos--flip .mos__i--lg { grid-column: 2; grid-row: 1 / span 2; }
+.mos--flip .mos__i:not(.mos__i--lg) { grid-column: 1; }
+
+.mos__i { margin: 0; display: flex; flex-direction: column; min-width: 0; }
+.mos__f {
+  display: block;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--soft);
+}
+.mos__i:not(.mos__i--lg) .mos__f { aspect-ratio: 16 / 10; }
+.mos__i--lg .mos__f { aspect-ratio: 4 / 5; }
+.mos__f img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--e);
+}
+.mos__i:hover .mos__f img { transform: scale(1.045); }
+
+.mos__i figcaption {
+  flex: none;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+.sec--w .mos__f { background: var(--soft); }
+
+/* 큰 칸이 두 줄을 채우므로 높이를 행에 맡긴다 */
+@media (min-width: 861px) {
+  .mos__i--lg .mos__f { aspect-ratio: auto; min-height: clamp(380px, 34vw, 520px); }
+}
+
+/* 태블릿: 세 장을 가로로 나란히 */
+@media (max-width: 860px) {
+  .mos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mos__i--lg,
+  .mos--flip .mos__i--lg { grid-row: auto; grid-column: auto; }
+  .mos--flip .mos__i:not(.mos__i--lg) { grid-column: auto; }
+  .mos__i .mos__f,
+  .mos__i--lg .mos__f { aspect-ratio: 3 / 4; }
+}
+
+/* 폰: 큰 칸을 화면 폭 전체로 깔고 작은 칸 둘을 아래 2열로 */
+@media (max-width: 620px) {
+  /* grid-auto-rows:1fr 은 두 줄 높이를 억지로 맞춰 aspect-ratio 를 무력화한다.
+     폰에서는 행 높이를 내용에 맡겨야 지정한 비율대로 잘린다. */
+  .mos { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 22px 12px; }
+  /* flip 쪽 규칙이 태블릿 구간에서 grid-column:auto 를 걸어두므로
+     여기서도 같은 선택자 무게로 되받아야 한다 */
+  .mos .mos__i--lg,
+  .mos--flip .mos__i--lg { grid-column: 1 / -1; grid-row: auto; }
+  .mos__i--lg .mos__f {
+    aspect-ratio: 3 / 2;
+    border-radius: 0;
+    margin-inline: calc(var(--pad) * -1);
+    width: calc(100% + var(--pad) * 2);
+  }
+  .mos__i:not(.mos__i--lg) .mos__f { aspect-ratio: 4 / 3; }
+  .mos__i figcaption { font-size: 12.5px; margin-top: 10px; padding-top: 9px; }
+}
+
+/* ==========================================================================
+   섹션 배경 사진 — 질감만 남기고 글자는 그대로 읽히게
+   ========================================================================== */
+
+.sec--photo { position: relative; isolation: isolate; overflow: hidden; }
+.sec--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--bgimg);
+  background-size: cover;
+  background-position: var(--bgpos, center);
+  background-repeat: no-repeat;
+}
+.sec--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* 밝은 섹션: 아이보리를 거의 불투명하게 덮어 사진은 결만 남는다 */
+  background: var(--bgveil, rgba(242, 236, 226, 0.955));
+}
+/* 배경이 깔린 밝은 섹션은 흰 카드가 살짝 떠 보이게 */
+.taste.sec--photo::after { background: rgba(242, 236, 226, 0.945); }
+#faq.sec--photo::after { background: rgba(242, 236, 226, 0.955); }
+
+/* 어두운 연락처 섹션은 사진이 보이게 두고 위에서 아래로 눌러 덮는다 */
+.cta.sec--photo::after {
+  background: linear-gradient(
+      to bottom,
+      rgba(20, 15, 12, 0.92) 0%,
+      rgba(20, 15, 12, 0.88) 38%,
+      rgba(20, 15, 12, 0.95) 100%
+    );
+}
+.cta.sec--photo::before { background-position: center 30%; }
+
+/* 배경 사진은 장식이다. 저사양·데이터 절약 환경에서는 걷어낸다. */
+@media (prefers-reduced-data: reduce) {
+  .sec--photo::before { display: none; }
+}
+
+/* ==========================================================================
+   향미 패널 — 컷아웃 + 공정 사진 두 장
+   ========================================================================== */
+
+.fl__figs { display: grid; gap: clamp(10px, 1.4vw, 16px); min-width: 0; }
+/* 사진 두 장이 세로로 쌓이므로 컷아웃 칸을 정사각으로 줄인다 */
+.fl__figs .fl__fig { margin: 0; aspect-ratio: 1 / 1; }
+
+.fl__sub { margin: 0; min-width: 0; }
+.fl__sub img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--soft);
+}
+.fl__sub figcaption {
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: -0.02em;
+}
+
+/* 폰: 컷아웃과 공정 사진을 좌우로 붙여 높이를 아낀다 */
+@media (max-width: 900px) {
+  /* 같은 폭 · 같은 비율이라야 두 사진의 아래끝이 맞는다 */
+  .fl__figs { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .fl__figs .fl__fig,
+  .fl__sub img { aspect-ratio: 1 / 1; }
+}
+@media (max-width: 420px) {
+  .fl__sub figcaption { font-size: 11.5px; }
+}

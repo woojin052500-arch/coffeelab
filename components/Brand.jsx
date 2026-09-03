@@ -2,6 +2,7 @@
 
 import { CHAIN, FIGURES } from "@/lib/content";
 import { Head, Rv, useInView } from "./util";
+import Mosaic from "./Mosaic";
 import { useEffect, useRef, useState } from "react";
 
 function Fig({ v, s, l }) {
@@ -76,6 +77,8 @@ export default function Brand() {
             </p>
           </Rv>
         </div>
+
+        <Mosaic name="brand" />
 
         <Rv>
           <p className="pull">

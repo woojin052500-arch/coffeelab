@@ -74,9 +74,17 @@ export default function Flavor() {
             <div className="pin__panels" ref={box}>
               {FLAVORS.map((x, n) => (
                 <div className={`fl ${n === i ? "on" : ""}`} key={x.key}>
-                  <figure className="fl__fig fig--object" style={{ "--c": x.color }}>
-                    <img src={x.img} alt={`${x.ko} 발효 원두`} loading="lazy" />
-                  </figure>
+                  {/* 과실 컷아웃 + 공정 사진 두 장. 데스크톱은 위아래,
+                      폰은 좌우로 붙는다. */}
+                  <div className="fl__figs">
+                    <figure className="fl__fig fig--object" style={{ "--c": x.color }}>
+                      <img src={x.img} alt={`${x.ko} 발효 원두의 주원료`} loading="lazy" />
+                    </figure>
+                    <figure className="fl__sub">
+                      <img src={x.photo} alt={`${x.ko} 발효 원두 ${x.photoCap}`} loading="lazy" />
+                      <figcaption>{x.photoCap}</figcaption>
+                    </figure>
+                  </div>
 
                   <div className="fl__tx">
                     <h3 className="fl__ko">{x.ko} 발효 원두</h3>
@@ -100,8 +108,8 @@ export default function Flavor() {
 
                     <div className="fl__pair">
                       <div>
-                        <span className="lbl">산지</span>
-                        <p>{x.region}</p>
+                        <span className="lbl">주원료</span>
+                        <p>{x.src}</p>
                       </div>
                       <div>
                         <span className="lbl">효모</span>
@@ -109,7 +117,7 @@ export default function Flavor() {
                       </div>
                       <div>
                         <span className="lbl">권장</span>
-                        <p>{x.key === "apple" ? "콜드브루 · 아이스" : "핸드드립 · 드립백"}</p>
+                        <p>{x.brew}</p>
                       </div>
                     </div>
                   </div>

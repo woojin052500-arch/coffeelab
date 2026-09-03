@@ -1,4 +1,4 @@
-import { FAQ } from "@/lib/content";
+import { BG, FAQ } from "@/lib/content";
 import { Head, Rv } from "./util";
 
 /* 검색엔진과 생성형 검색(AI)이 그대로 인용할 수 있도록, 답변 한 문단이
@@ -6,7 +6,11 @@ import { Head, Rv } from "./util";
    데이터로도 나간다(app/Schema.jsx). */
 export default function Faq() {
   return (
-    <section className="sec sec--soft" id="faq">
+    <section
+      className="sec sec--soft sec--photo"
+      id="faq"
+      style={{ "--bgimg": `url(${BG.faq})` }}
+    >
       <div className="wrap">
         <Head
           title="자주 묻는 질문"

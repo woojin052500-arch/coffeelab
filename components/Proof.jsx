@@ -2,6 +2,7 @@
 
 import { RADAR_AXES, RADAR_OTHER, RADAR_OURS, TIMELINE } from "@/lib/content";
 import { Head, Rv, useInView } from "./util";
+import Mosaic from "./Mosaic";
 
 const CX = 160;
 const CY = 152;
@@ -176,18 +177,7 @@ export default function Proof() {
           </Rv>
         </div>
 
-        <div className="ph">
-          <Rv as="figure" style={{ margin: 0 }}>
-            <div className="ph__i">
-              <img src="/img/test-room.webp" alt="커피 전공자들이 참여한 블라인드 테스트 현장" loading="lazy" />
-            </div>
-          </Rv>
-          <Rv as="figure" style={{ margin: 0 }} delay={90}>
-            <div className="ph__i">
-              <img src="/img/cupping.webp" alt="번호로만 구분된 커핑 볼이 놓인 테이블" loading="lazy" />
-            </div>
-          </Rv>
-        </div>
+        <Mosaic name="proof" flip />
 
         <div className="hist">
           <div className="tl">

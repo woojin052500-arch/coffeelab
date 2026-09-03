@@ -1,6 +1,7 @@
 import { Head, Rv } from "./util";
 import TestButton from "./TestLauncher";
 import { ORIGINS, PROCESSINGS, VARIETIES, TYPES } from "@/lib/quiz";
+import { BG } from "@/lib/content";
 
 const CHIPS = [
   { k: "산지", v: ORIGINS.length, l: ORIGINS.join(" · ") },
@@ -13,7 +14,11 @@ const CARDS = ["kenya", "panama", "ethiopia"].map((k) => TYPES[k]);
 
 export default function Taste() {
   return (
-    <section className="sec taste" id="taste">
+    <section
+      className="sec sec--photo taste"
+      id="taste"
+      style={{ "--bgimg": `url(${BG.taste})` }}
+    >
       <div className="wrap">
         <Head
           title={
