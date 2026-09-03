@@ -16,6 +16,7 @@ export default function Process() {
     <section className="sec sec--w" id="process">
       <div className="wrap">
         <Head
+          k="발효 기술"
           title={
             <>
               여섯 단계로 <b>표준화된</b> 향미 설계

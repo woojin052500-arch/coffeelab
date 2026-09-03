@@ -161,6 +161,7 @@ export default function Proof() {
     <section className="sec" id="proof">
       <div className="wrap">
         <Head
+          k="검증"
           title={
             <>
               라벨을 가리고 <b>20명에게 물었습니다</b>

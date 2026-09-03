@@ -13,6 +13,7 @@ export default function Faq() {
     >
       <div className="wrap">
         <Head
+          k="FAQ"
           title="자주 묻는 질문"
           desc="발효 커피와 가향 커피의 차이, 무산소 발효 공정, 원두 납품 문의까지 가장 많이 받는 질문을 모았습니다."
         />

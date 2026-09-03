@@ -21,6 +21,7 @@ export default function Taste() {
     >
       <div className="wrap">
         <Head
+          k="커피 취향 테스트"
           title={
             <>
               내 취향의 커피는 <b>어떤 얼굴일까</b>

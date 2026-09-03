@@ -26,10 +26,11 @@ export default function Flavor() {
     <section
       className="sec sec--tint"
       id="flavor"
-      style={{ background: `color-mix(in srgb, ${f.color} 5%, #faf7f1)` }}
+      style={{ background: `color-mix(in srgb, ${f.color} 6%, #ffffff)` }}
     >
       <div className="wrap">
         <Head
+          k="향미 라인업"
           title={
             <>
               과일이 바뀌면 <b>커피가 바뀝니다</b>

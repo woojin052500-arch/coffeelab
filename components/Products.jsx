@@ -6,6 +6,7 @@ export default function Products() {
     <section className="sec sec--w" id="product">
       <div className="wrap">
         <Head
+          k="제품"
           title={
             <>
               하나의 레시피, <b>네 가지 형태</b>
@@ -24,7 +25,9 @@ export default function Products() {
               >
                 <img src={p.img} alt={p.alt} loading="lazy" decoding="async" />
               </div>
-              <h3 className="pr__t">{p.t}</h3>
+              <h3 className="pr__t" data-n={p.n}>
+                {p.t}
+              </h3>
               <p className="pr__d">{p.d}</p>
             </Rv>
           ))}

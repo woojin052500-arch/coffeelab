@@ -44,6 +44,7 @@ export default function Brand() {
     <section className="sec sec--w" id="brand">
       <div className="wrap">
         <Head
+          k="회사 소개"
           title="한국의 커피를 찾아서"
           desc="오늘날 한국은 세계적인 수준의 커피 소비국으로 성장했습니다. 그러나 현장에서 바리스타, 로스터, 그리고 커퍼로 활동해 온 저희는 늘 한 가지 의문을 품고 있었습니다."
         />
