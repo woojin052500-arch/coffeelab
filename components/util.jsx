@@ -44,9 +44,10 @@ export function Rv({ children, delay = 0, as: Tag = "div", className = "", ...re
   );
 }
 
-export function Head({ title, desc, desc2 }) {
+export function Head({ k, title, desc, desc2 }) {
   return (
     <Rv className="head">
+      {k ? <p className="head__k">{k}</p> : null}
       <h2 className="head__t">{title}</h2>
       {desc ? <p className="head__d">{desc}</p> : null}
       {desc2 ? <p className="head__d">{desc2}</p> : null}

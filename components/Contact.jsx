@@ -1,12 +1,17 @@
-import { COMPANY } from "@/lib/content";
+import { BG, COMPANY } from "@/lib/content";
 import { Head, Rv } from "./util";
 
 export default function Contact() {
   const c = COMPANY;
   return (
-    <section className="cta" id="contact">
+    <section
+      className="cta sec--photo"
+      id="contact"
+      style={{ "--bgimg": `url(${BG.contact})` }}
+    >
       <div className="wrap">
         <Head
+          k="문의"
           title="시그니처가 필요한 카페와 함께합니다"
           desc="차별화된 메뉴를 구성하려는 로스터리·베이커리·개인 카페를 위한 B2B 발효 원두 공급과 향미 컨설팅. 지역 농가·지자체 협업 문의도 환영합니다."
         />
