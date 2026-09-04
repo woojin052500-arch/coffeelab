@@ -363,7 +363,7 @@ section[id] { scroll-margin-top: var(--nav); }
   margin-inline: auto;
   padding: clamp(40px, 6vw, 84px) var(--pad) clamp(84px, 8vw, 108px);
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
   align-items: center;
   gap: clamp(24px, 4.5vw, 68px);
   opacity: 0;
@@ -392,13 +392,63 @@ p.slide__t { margin-block-end: 0; }
 .slide.on .slide__a { animation-delay: 0.24s; }
 @keyframes slidein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
-.slide__fig { margin: 0; position: relative; overflow: hidden; }
-.slide__fig img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: var(--r-lg); }
+/* 메인 사진과 제품 컷을 한 덩어리로 묶는다 */
+.slide__media {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(130px, 15vw, 196px);
+  /* 행을 minmax(0,1fr)로 묶지 않으면 내용 높이만큼 자라서 컨테이너의
+     height 를 그냥 넘어간다 */
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(10px, 1.2vw, 16px);
+  align-items: stretch;
+  min-width: 0;
+}
+
+.slide__fig { margin: 0; position: relative; overflow: hidden; min-width: 0; min-height: 0; }
+.slide__fig img { width: 100%; height: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: var(--r-lg); }
+
+/* 오른쪽 제품 컷 두 장 — 색 타일 위에 얹는다 */
+.slide__thumbs { display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 16px); min-width: 0; min-height: 0; }
+
+.sthumb { margin: 0; display: flex; flex-direction: column; min-height: 0; }
+.sthumb__f {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--bg, var(--cream));
+}
+.sthumb__f img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  transition: transform 0.9s var(--e);
+}
+.sthumb:hover .sthumb__f img { transform: scale(1.07); }
+.sthumb figcaption {
+  flex: none;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 @media (min-width: 901px) {
-  .slide__fig img { aspect-ratio: 16 / 11; }
+  /* 사진 덩어리 높이를 한 화면 안에 묶는다. 그러지 않으면 메인 사진의 비율이
+     그대로 늘어나 슬라이더 컨트롤이 첫 화면 밖으로 밀린다. */
+  .slide__media { height: clamp(360px, 54vh, 560px); }
+  .slide__fig img { aspect-ratio: auto; height: 100%; }
 }
 .slide.on .slide__fig img { animation: figin 1.3s var(--e) both; }
+.slide.on .sthumb { animation: slidein 0.9s var(--e) both; }
+.slide.on .sthumb:nth-child(1) { animation-delay: 0.2s; }
+.slide.on .sthumb:nth-child(2) { animation-delay: 0.3s; }
 @keyframes figin { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: scale(1.05); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
 
 .hero__ctl {
@@ -623,7 +673,6 @@ p.slide__t { margin-block-end: 0; }
 .flow__t { display: block; margin-top: 12px; font-size: clamp(14px, 1.25vw, 17px); font-weight: 700; letter-spacing: -0.04em; color: var(--ink-3); transition: color 0.3s ease; }
 .flow__i.on .flow__t { color: var(--ink); }
 
-.pin__panels { margin-top: clamp(28px, 3.6vw, 52px); }
 .flow__panel { display: none; }
 .flow__panel.on {
   display: grid;
@@ -1049,14 +1098,25 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
     padding: 0 var(--pad) 82px;
     gap: 20px;
   }
-  /* basis 0 — 이미지는 문구·버튼을 배치하고 남은 높이만 가져간다 */
-  .slide__fig {
+  /* basis 0 — 사진 덩어리는 문구·버튼을 배치하고 남은 높이만 가져간다 */
+  .slide__media {
     order: -1;
     flex: 1 1 0;
-    min-height: 150px;
+    min-height: 190px;
+    /* 폰에서는 메인 사진 아래에 제품 컷 두 장을 가로로 깐다 */
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 10px;
     margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
   }
+  .slide__fig { min-height: 0; margin-inline: calc(var(--pad) * -1); }
   .slide__fig img { height: 100%; aspect-ratio: auto; border-radius: 0; }
+
+  .slide__thumbs { grid-template-rows: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .sthumb { flex-direction: row; align-items: center; gap: 10px; }
+  .sthumb__f { flex: 0 0 54px; height: 54px; border-radius: var(--r); }
+  .sthumb figcaption { margin-top: 0; font-size: 12px; white-space: normal; line-height: 1.35; }
   .slide > div { flex: 0 0 auto; }
   .slide__t { margin-top: 0; }
   .slide__d { max-width: none; }
@@ -1160,117 +1220,165 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 }
 
 /* ==========================================================================
-   process / flavor - 세로 스크롤 고정(pin) 스테퍼
+   process / flavor — 옆으로 넘기는 단계 뷰어(deck)
+   --------------------------------------------------------------------------
+   예전에는 화면을 붙잡아 두고 세로 스크롤로 단계를 넘겼다(pin). 페이지를
+   그냥 지나쳐 내려갈 수 없어 답답했고, 짧은 화면에서는 패널이 넘쳤다.
+   지금은 가로 레일을 translateX 로 밀어 넘긴다. 스와이프 · 화살표 버튼 ·
+   좌우 방향키 셋 다 통하고, 섹션 높이는 내용만큼만 차지한다.
    ========================================================================== */
 
-/* 데스크톱: pin 비활성. 래퍼에 여분 높이가 없으므로 JS도 자동으로 꺼진다 */
-.pin__stage { position: static; }
-.pin__bar { display: none; }
-.pin__panels { position: relative; }
+.deck { margin-top: clamp(30px, 3.8vw, 52px); }
+
+/* ---- 조작부 ---- */
+
+.deck__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.8vw, 22px);
+  margin: clamp(20px, 2.4vw, 30px) 0 clamp(18px, 2.2vw, 26px);
+}
+.deck__c {
+  flex: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.deck__c b { font-weight: 800; color: var(--red); }
+
+.deck__segs { flex: 1 1 auto; display: flex; gap: 5px; min-width: 0; }
+/* 막대는 5px로 보이지만 손가락이 닿는 영역은 45px이다. 가상 요소로 넓히면
+   버튼 자신의 상자는 5px 그대로라 접근성 검사에도 안 잡히고 깨지기 쉽다.
+   padding 으로 진짜 높이를 주고 background-clip 으로 색만 가운데 5px에
+   가둔다. 화살표(46px)가 줄 높이를 잡고 있어 레이아웃은 그대로다. */
+.deck__seg {
+  flex: 1 1 0;
+  box-sizing: content-box;
+  height: 5px;
+  min-width: 0;
+  padding: 20px 0;
+  border-radius: var(--pill);
+  background-color: var(--soft-2);
+  background-clip: content-box;
+  transition: background-color 0.4s var(--e);
+}
+.deck__seg.f, .deck__seg.on { background-color: var(--red); }
+.deck__seg:hover { background-color: var(--line-2); }
+.deck__seg.f:hover, .deck__seg.on:hover { background-color: var(--red-d); }
+
+.deck__arrows { flex: none; display: flex; gap: 8px; }
+.deck__arrows button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  transition: background 0.28s var(--e2), color 0.28s var(--e2), transform 0.28s var(--e2);
+}
+.sec--w .deck__arrows button { background: var(--w); }
+.deck__arrows button:hover:not(:disabled) { background: var(--ink); color: var(--paper); transform: scale(1.06); }
+.deck__arrows button:disabled { opacity: 0.32; cursor: default; }
+
+/* ---- 레일 ---- */
+
+.deck__view { overflow: hidden; outline: none; }
+.deck__view:focus-visible { outline: 2px solid var(--red); outline-offset: 6px; border-radius: var(--r); }
+
+.deck__rail {
+  display: flex;
+  align-items: stretch;
+  transition: transform 0.55s var(--e);
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck__rail { transition: none; }
+}
+
+.deck__panel {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  /* 레일이 밀려 나간 패널은 화면 밖에 있어도 읽히므로 숨긴다 */
+  transition: opacity 0.4s var(--e);
+}
+.deck__panel[aria-hidden="true"] { opacity: 0; pointer-events: none; }
+
+/* 공정 패널: 사진 | 글 두 칸 (레일 안에서도 기존 배치를 그대로 쓴다) */
+.deck__panel.flow__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+.deck__panel.fl { display: grid; }
+
+.flow__step {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 7px 14px;
+  border-radius: var(--pill);
+  background: var(--tile-red);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.flow__vars {
+  margin: clamp(20px, 2.4vw, 28px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.flow__vars li {
+  padding: 8px 15px;
+  border-radius: var(--pill);
+  background: var(--cream);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.sec--w .flow__vars li { background: var(--w); }
+
+/* ---- 태블릿·폰 ---- */
 
 @media (max-width: 900px) {
-  .flow__track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .flow__i { padding: 17px 12px 20px 0; border-right: 1px solid var(--line); }
-  .flow__i:nth-child(3n) { border-right: 0; }
-  .flow__i:nth-child(n + 4) { border-top: 1px solid var(--line); }
-  .flow__n { font-size: 13px; }
-  .flow__t { margin-top: 7px; font-size: 15px; line-height: 1.45; }
+  /* 공정은 여섯 칸 격자를 접고 화살표·막대로만 넘긴다 */
+  .flow .flow__track { display: none; }
+  .flow .deck__nav { margin-top: 0; }
 
   .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; overflow: visible; }
   .tabs > :first-child, .tabs > :last-child { margin-inline: 0; }
   .tab { width: 100%; padding: 0 6px; font-size: 15px; }
   .tab__en { display: none; }
 
-  /* ---- 화면은 그대로 두고 내용만 바뀐다 ---- */
-  .pin { --adv: clamp(180px, 32svh, 320px); height: calc(var(--stage) + var(--n) * var(--adv)); }
-  .pin__stage {
-    position: sticky;
-    top: var(--nav);
-    height: var(--stage);
-    display: flex;
-    flex-direction: column;
-    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
-  }
-  .pin { --stage: calc(100svh - var(--nav)); }
-
-  /* 공정 섹션은 여섯 칸 격자 대신 진행 막대를 쓴다 */
-  .flow .flow__track { display: none; }
-
-  .pin__bar { display: flex; align-items: center; gap: 12px; padding: 0 0 14px; }
-  .pin__c { font-size: 14px; font-weight: 700; color: var(--red); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
-  .pin__segs { flex: 1 1 auto; display: flex; gap: 4px; }
-  .pin__seg { flex: 1 1 0; height: 4px; border-radius: var(--pill); background: var(--soft-2); transition: background 0.45s var(--e); }
-  .pin__seg.f { background: var(--red); }
-  .pin__hint { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; color: var(--ink-3); opacity: 0; transition: opacity 0.45s ease; }
-  .pin__hint.on { opacity: 1; }
-  .pin__hint i { width: 6px; height: 6px; border-right: 1px solid var(--ink-3); border-bottom: 1px solid var(--ink-3); transform: rotate(45deg); animation: nudgeY 1.9s var(--e) infinite; }
-  @keyframes nudgeY { 0%, 62%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; } 30% { transform: rotate(45deg) translate(3px, 3px); opacity: 1; } }
-
-  .pin__panels { flex: 1 1 auto; min-height: 0; margin-top: 0; }
-  .flow__panel, .flow__panel.on, .fl, .fl.on {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(14px);
-    transition: opacity 0.5s var(--e), transform 0.6s var(--e), visibility 0.5s;
-    animation: none;
-  }
-  .flow__panel.on, .fl.on { opacity: 1; visibility: visible; transform: none; }
-
-  .flow__fig, .fl__fig {
-    flex: 1 1 auto;
-    min-height: 0;
-    aspect-ratio: auto;
-    margin: 0 0 20px;
-    margin-inline: calc(var(--pad) * -1);
-    border-radius: 0;
-  }
-  /* 사진 칸은 남는 높이에 맞춰 줄어들되 바닥(88px)은 지킨다. 고정으로 두면
-     글이 하단 바 밑으로 밀리고, 자유롭게 두면 예전처럼 0px 까지 찌그러진다. */
-  .fl__fig {
-    flex: 1 1 auto;
-    height: auto;
-    min-height: 88px;
-    max-height: clamp(118px, 23svh, 210px);
-  }
-  .flow__tx, .fl__tx { flex: 0 0 auto; order: 0; }
+  /* 사진 위, 글 아래 한 줄로 */
+  .deck__panel.flow__panel { grid-template-columns: 1fr; gap: 20px; align-items: start; }
+  .flow__fig, .fl__fig { aspect-ratio: 4 / 3; }
+  .flow__tx, .fl__tx { order: 0; }
   .flow__h { margin: 0; }
   .flow__d, .fl__d { max-width: none; }
   .fl__ko { margin: 0; }
-  .fl__rule { margin-top: 14px; }
-  .fl__d { margin-top: 14px; }
-  .mt { margin-top: 18px; gap: 11px; }
-  .fl__pair { margin-top: 18px; padding-top: 16px; gap: 12px 26px; }
-  .fl__pair p { margin-top: 6px; font-size: 15px; }
+
+  /* 레일이 화면 폭 전체를 쓰도록 좌우 여백을 밖으로 빼고 패널이 다시 넣는다 */
+  .deck__view { margin-inline: calc(var(--pad) * -1); }
+  .deck__panel { padding-inline: var(--pad); }
 }
 
-@media (max-width: 900px) and (max-height: 780px) {
-  .fl__pair { display: none; }
-  .fl__d { margin-top: 12px; }
-  .mt { margin-top: 14px; gap: 7px; }
-  .mt__k, .mt__v { font-size: 12.5px; }
-  .fl__ko { font-size: 25px; }
-  .fl__rule { margin-top: 11px; width: 60px; }
+@media (max-width: 640px) {
+  /* 카운터·화살표와 한 줄에 두면 여섯 칸이 27px까지 좁아진다. 진행 막대를
+     아래 줄로 내려 폭을 다 쓰게 하면 한 칸이 50px대가 된다. */
+  .deck__nav { flex-wrap: wrap; gap: 10px 12px; }
+  .deck__c { font-size: 13px; margin-right: auto; }
+  .deck__segs { order: 3; flex: 1 0 100%; gap: 6px; margin-block: -8px; }
+  .deck__arrows button { width: 44px; height: 44px; }
+  .flow__vars li { font-size: 12.5px; padding: 7px 13px; }
 }
-
-/* 아주 짧은 화면(SE 등)에서는 한 단계 더 조여 패널이 넘치지 않게 한다 */
-@media (max-width: 900px) and (max-height: 640px) {
-  .fl__fig { min-height: 76px; max-height: clamp(88px, 16svh, 140px); margin-bottom: 12px; }
-  .fl__ko { font-size: 21px; }
-  .fl__rule { margin-top: 8px; }
-  .fl__d { font-size: 13px; line-height: 1.6; margin-top: 9px; }
-  .mt { margin-top: 10px; gap: 4px; }
-  .mt__k, .mt__v { font-size: 12px; }
-  .tab { min-height: 44px; }
-  .pin__bar { padding-bottom: 9px; }
-  .flow__h { font-size: 20px; }
-  .flow__d { font-size: 13px; line-height: 1.72; }
-}
-
 
 /* ==========================================================================
    접근성 — 본문 바로가기

@@ -78,14 +78,30 @@ export default function Hero() {
               </div>
             </div>
 
-            <figure className="slide__fig">
-              <img
-                src={s.img}
-                alt={s.t.join(" ")}
-                loading={k === 0 ? "eager" : "lazy"}
-                fetchPriority={k === 0 ? "high" : "auto"}
-              />
-            </figure>
+            {/* 메인 사진 + 오른쪽 제품 컷 두 장 */}
+            <div className="slide__media">
+              <figure className="slide__fig">
+                <img
+                  src={s.img}
+                  alt={s.t.join(" ")}
+                  loading={k === 0 ? "eager" : "lazy"}
+                  fetchPriority={k === 0 ? "high" : "auto"}
+                />
+              </figure>
+
+              {s.thumbs?.length ? (
+                <div className="slide__thumbs">
+                  {s.thumbs.map((t) => (
+                    <figure className="sthumb" key={t.img + t.cap} style={{ "--bg": t.bg }}>
+                      <span className="sthumb__f">
+                        <img src={t.img} alt={t.cap} loading="lazy" decoding="async" />
+                      </span>
+                      <figcaption>{t.cap}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>
