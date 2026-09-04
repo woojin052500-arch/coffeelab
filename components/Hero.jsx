@@ -1,18 +1,25 @@
 "use client";
 
+/* ==========================================================================
+   히어로 — 제품을 늘어놓은 한 장면
+   --------------------------------------------------------------------------
+   소개서에 붙은 삼양라면 메인 비주얼을 기준으로 잡았다. 사진을 네모 칸에
+   나눠 담지 않고, 따뜻한 바닥 위에 컷아웃을 크기·깊이를 달리해 배치해 한
+   장면으로 읽히게 한다. 좌측에 라벨 · 큰 제목 · 알약 버튼, 우측이 장면.
+   ========================================================================== */
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SLIDES } from "@/lib/content";
 import { openTest } from "./TestLauncher";
+
+const pad = (n) => String(n).padStart(2, "0");
 
 export default function Hero() {
   const [i, setI] = useState(0);
   const n = SLIDES.length;
   const timer = useRef();
 
-  const go = useCallback(
-    (next) => setI(((next % n) + n) % n),
-    [n]
-  );
+  const go = useCallback((next) => setI(((next % n) + n) % n), [n]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -37,13 +44,9 @@ export default function Hero() {
     <section className="hero" id="top" aria-roledescription="carousel">
       <div className="hero__stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         {SLIDES.map((s, k) => (
-          <div
-            className={`slide ${k === i ? "on" : ""}`}
-            key={s.lbl}
-            aria-hidden={k !== i}
-          >
-            <div>
-              {/* h1은 문서에 하나만 둔다. 나머지 슬라이드 제목은 같은 모양의 문단. */}
+          <div className={`slide ${k === i ? "on" : ""}`} key={s.lbl} aria-hidden={k !== i}>
+            <div className="slide__tx">
+              <p className="slide__lbl">{s.lbl}</p>
               {k === 0 ? (
                 <h1 className="slide__t">
                   {s.t[0]}
@@ -58,6 +61,7 @@ export default function Hero() {
                 </p>
               )}
               <p className="slide__d">{s.d}</p>
+
               <div className="slide__a">
                 {s.test ? (
                   <button
@@ -78,74 +82,54 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* 메인 사진 + 오른쪽 제품 컷 두 장 */}
-            <div className="slide__media">
-              <figure className="slide__fig">
+            {/* 제품을 늘어놓은 장면 — 컷아웃이 바닥 위에 겹쳐 선다 */}
+            <div className="scene" role="img" aria-label={`${s.t.join(" ")} 제품 이미지`}>
+              <span className="scene__floor" aria-hidden="true" />
+              {s.scene.map((o, m) => (
                 <img
-                  src={s.img}
-                  alt={s.t.join(" ")}
+                  key={o.img + m}
+                  className="scene__o"
+                  src={o.img}
+                  alt=""
+                  aria-hidden="true"
                   loading={k === 0 ? "eager" : "lazy"}
-                  fetchPriority={k === 0 ? "high" : "auto"}
+                  fetchPriority={k === 0 && m === 2 ? "high" : "auto"}
+                  decoding="async"
+                  style={{
+                    "--w": `${o.w}%`,
+                    "--l": `${o.l}%`,
+                    "--b": `${o.b}%`,
+                    "--z": o.z,
+                    "--d": `${m * 90}ms`,
+                  }}
                 />
-              </figure>
-
-              {s.strip ? (
-                <figure className="slide__strip">
-                  <img
-                    src={s.strip.img}
-                    alt={s.strip.cap}
-                    loading="lazy"
-                    decoding="async"
-                    style={s.strip.pos ? { objectPosition: s.strip.pos } : undefined}
-                  />
-                  <figcaption>{s.strip.cap}</figcaption>
-                </figure>
-              ) : null}
-
-              {s.thumbs?.length ? (
-                <div className="slide__thumbs">
-                  {s.thumbs.map((t) => (
-                    <figure className="sthumb" key={t.img + t.cap} style={{ "--bg": t.bg }}>
-                      <span className="sthumb__f">
-                        <img src={t.img} alt={t.cap} loading="lazy" decoding="async" />
-                      </span>
-                      <figcaption>{t.cap}</figcaption>
-                    </figure>
-                  ))}
-                </div>
-              ) : null}
+              ))}
             </div>
           </div>
         ))}
       </div>
 
       <div className="hero__ctl">
-        <div className="dots2" role="tablist" aria-label="히어로 슬라이드">
-          {SLIDES.map((s, k) => (
-            <button
-              key={s.lbl}
-              type="button"
-              role="tab"
-              aria-selected={k === i}
-              aria-label={`${k + 1}번 슬라이드`}
-              className={k === i ? "on" : ""}
-              onClick={() => go(k)}
-            />
-          ))}
-        </div>
+        <span className="hero__c">
+          <b>{pad(i + 1)}</b> / {pad(n)}
+        </span>
 
-        <div className="arrows">
+        <span className="hero__line" aria-hidden="true">
+          <i style={{ transform: `scaleX(${(i + 1) / n})` }} />
+        </span>
+
+        <span className="arrows">
           <button type="button" aria-label="이전 슬라이드" onClick={() => go(i - 1)}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" strokeWidth="1.4" />
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+              <path d="M9.5 2.5L4.5 7.5l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
             </svg>
           </button>
           <button type="button" aria-label="다음 슬라이드" onClick={() => go(i + 1)}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M5.5 2.5L10 7l-4.5 4.5" stroke="currentColor" strokeWidth="1.4" />
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+              <path d="M5.5 2.5l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
             </svg>
           </button>
-        </div>
+        </span>
       </div>
     </section>
   );

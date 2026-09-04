@@ -349,10 +349,21 @@ section[id] { scroll-margin-top: var(--nav); }
 }
 
 /* ==========================================================================
-   hero slider
+   hero — 제품을 늘어놓은 한 장면
+   --------------------------------------------------------------------------
+   따뜻한 바닥 위에 컷아웃을 크기·깊이를 달리해 세운다. 사진을 네모 칸에
+   나눠 담지 않는다. 좌측 글 · 우측 장면.
    ========================================================================== */
 
-.hero { padding-top: var(--nav); background: var(--paper); position: relative; overflow: hidden; }
+.hero {
+  padding-top: var(--nav);
+  position: relative;
+  overflow: hidden;
+  /* 제품 촬영 배경처럼 위는 밝고 아래로 갈수록 살짝 가라앉는 따뜻한 바닥 */
+  background:
+    radial-gradient(120% 78% at 72% 24%, #fffdfa 0%, rgba(255, 253, 250, 0) 62%),
+    linear-gradient(to bottom, #f6f0e6 0%, #efe7d9 62%, #e8dece 100%);
+}
 
 .hero__stage { position: relative; display: grid; }
 
@@ -361,141 +372,161 @@ section[id] { scroll-margin-top: var(--nav); }
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
-  padding: clamp(40px, 6vw, 84px) var(--pad) clamp(84px, 8vw, 108px);
+  padding: clamp(30px, 4vw, 60px) var(--pad) clamp(96px, 9vw, 128px);
   display: grid;
-  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   align-items: center;
-  gap: clamp(24px, 4.5vw, 68px);
+  gap: clamp(20px, 4vw, 52px);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.75s var(--e), visibility 0.75s;
+  transition: opacity 0.7s var(--e), visibility 0.7s;
 }
 .slide.on { opacity: 1; visibility: visible; }
 
-p.slide__t { margin-block-end: 0; }
-.slide__t {
-  margin: clamp(16px, 2.2vw, 24px) 0 0;
-  font-size: clamp(34px, 5.2vw, 74px);
+/* ---------- 글 ---------- */
+
+.slide__lbl {
+  margin: 0 0 clamp(14px, 1.8vw, 20px);
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.16;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.slide__t {
+  margin: 0;
+  font-size: clamp(31px, 4.5vw, 62px);
+  font-weight: 800;
+  line-height: 1.17;
   letter-spacing: -0.055em;
+  /* 없으면 마지막 줄에 한 글자만 남는 슬라이드가 생긴다 */
+  text-wrap: balance;
 }
 .slide__t b { font-weight: 800; color: var(--red); }
-.slide__d { margin: clamp(16px, 1.8vw, 22px) 0 0; max-width: 38ch; color: var(--ink-2); font-size: clamp(14px, 1.15vw, 16px); line-height: 1.9; }
-.slide__a { margin-top: clamp(24px, 2.8vw, 34px); display: flex; flex-wrap: wrap; gap: 10px; }
 
+.slide__d {
+  margin: clamp(16px, 1.9vw, 24px) 0 0;
+  max-width: 38ch;
+  color: var(--ink-2);
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.9;
+}
+.slide__a { margin-top: clamp(24px, 2.8vw, 36px); display: flex; flex-wrap: wrap; gap: 10px; }
+
+.slide.on .slide__lbl,
 .slide.on .slide__t,
 .slide.on .slide__d,
 .slide.on .slide__a { animation: slidein 0.95s var(--e) both; }
-.slide.on .slide__t { animation-delay: 0.08s; }
-.slide.on .slide__d { animation-delay: 0.16s; }
-.slide.on .slide__a { animation-delay: 0.24s; }
+.slide.on .slide__lbl { animation-delay: 0.04s; }
+.slide.on .slide__t { animation-delay: 0.1s; }
+.slide.on .slide__d { animation-delay: 0.18s; }
+.slide.on .slide__a { animation-delay: 0.26s; }
 @keyframes slidein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
-/* 메인 사진과 제품 컷을 한 덩어리로 묶는다 */
-.slide__media {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(130px, 15vw, 196px);
-  /* 행을 minmax(0,1fr)로 묶지 않으면 내용 높이만큼 자라서 컨테이너의
-     height 를 그냥 넘어간다 */
-  grid-template-rows: minmax(0, 1fr);
-  gap: clamp(10px, 1.2vw, 16px);
-  align-items: stretch;
+/* ---------- 장면 ---------- */
+
+.scene {
+  position: relative;
+  height: clamp(300px, 42vh, 470px);
   min-width: 0;
 }
 
-.slide__fig { margin: 0; position: relative; overflow: hidden; min-width: 0; min-height: 0; }
-.slide__fig img { width: 100%; height: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: var(--r-lg); }
-
-/* 오른쪽 제품 컷 두 장 — 색 타일 위에 얹는다 */
-.slide__thumbs { display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 16px); min-width: 0; min-height: 0; }
-
-.sthumb { margin: 0; display: flex; flex-direction: column; min-height: 0; }
-.sthumb__f {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: grid;
-  /* 암묵 행이 사진 원본 높이로 잡히면 height:82% 가 그 행을 참조해 칸을
-     넘어간다. 콜라주 컷아웃 타일과 같은 함정이다. */
-  grid-template-rows: minmax(0, 1fr);
-  place-items: center;
-  overflow: hidden;
-  border-radius: var(--r-lg);
-  background: var(--bg, var(--cream));
+/* 바닥에 깔리는 그림자 — 제품이 공중에 뜬 것처럼 보이지 않게 */
+.scene__floor {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 2%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(90, 70, 50, 0.16) 0%, rgba(90, 70, 50, 0) 72%);
 }
-.sthumb__f img {
-  width: 82%;
-  height: 82%;
+
+.scene__o {
+  position: absolute;
+  left: var(--l);
+  bottom: var(--b);
+  z-index: var(--z);
+  width: var(--w);
+  height: auto;
+  /* 가로 %로만 크기를 주면 세로로 긴 상자가 장면 위로 삐져나가 헤더에 잘린다.
+     높이를 장면 안에 묶고, 줄어든 만큼 가로도 같이 따라오게 한다. */
+  max-height: 88%;
   object-fit: contain;
-  transition: transform 0.9s var(--e);
+  object-position: bottom;
+  /* 컷아웃이 바닥에 닿아 보이도록 아래로 퍼지는 그림자 */
+  filter: drop-shadow(0 14px 18px rgba(70, 52, 38, 0.22));
+  transition: transform 0.7s var(--e);
 }
-.sthumb:hover .sthumb__f img { transform: scale(1.07); }
-.sthumb figcaption {
-  flex: none;
-  margin-top: 10px;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--ink-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.slide.on .scene__o { animation: scenein 1s var(--e) both; animation-delay: var(--d); }
+@keyframes scenein {
+  from { opacity: 0; transform: translateY(26px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.scene:hover .scene__o { transform: translateY(-4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide.on .scene__o { animation: none; }
+  .scene:hover .scene__o { transform: none; }
 }
 
-@media (min-width: 901px) {
-  /* 사진 덩어리 높이를 한 화면 안에 묶는다. 그러지 않으면 메인 사진의 비율이
-     그대로 늘어나 슬라이더 컨트롤이 첫 화면 밖으로 밀린다. */
-  .slide__media { height: clamp(360px, 54vh, 560px); }
-  .slide__fig img { aspect-ratio: auto; height: 100%; }
-}
-.slide.on .slide__fig img { animation: figin 1.3s var(--e) both; }
-.slide.on .sthumb { animation: slidein 0.9s var(--e) both; }
-.slide.on .sthumb:nth-child(1) { animation-delay: 0.2s; }
-.slide.on .sthumb:nth-child(2) { animation-delay: 0.3s; }
-@keyframes figin { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: scale(1.05); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
+/* ---------- 조작부 ---------- */
 
 .hero__ctl {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: clamp(26px, 3.4vw, 44px);
+  bottom: clamp(24px, 3.2vw, 44px);
   width: 100%;
   max-width: var(--maxw);
   padding-inline: var(--pad);
   display: flex;
   align-items: center;
-  gap: 16px;
-  z-index: 3;
+  gap: clamp(14px, 2vw, 24px);
+  z-index: 5;
 }
 
-/* 막대는 2px로 보이지만 손가락이 닿는 영역은 44px이다 */
-.dots2 { display: flex; gap: 8px; }
-.dots2 button {
-  box-sizing: content-box;
-  width: 30px;
-  height: 4px;
-  padding-block: 21px;
+.hero__c {
+  flex: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.hero__c b { font-weight: 800; color: var(--red); }
+
+/* 네모 점 대신 한 줄짜리 진행선 */
+.hero__line {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 2px;
   border-radius: var(--pill);
-  background-color: var(--line-2);
-  background-clip: content-box;
-  transition: background-color 0.35s ease, width 0.35s var(--e);
+  background: rgba(90, 70, 50, 0.16);
+  overflow: hidden;
 }
-.dots2 button.on { width: 46px; }
-/* 단축 속성(background)을 쓰면 background-clip이 초기화되므로 색만 바꾼다 */
-.dots2 button.on { background-color: var(--red); }
+.hero__line i {
+  display: block;
+  height: 100%;
+  background: var(--red);
+  transform-origin: left;
+  transition: transform 0.6s var(--e);
+}
 
-.arrows { display: flex; gap: 8px; margin-left: auto; }
+.arrows { flex: none; display: flex; gap: 8px; }
 .arrows button {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border: 0;
   border-radius: 50%;
-  background: var(--cream);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
   display: grid;
   place-items: center;
+  box-shadow: var(--sh);
   transition: background 0.3s var(--e2), color 0.3s var(--e2), transform 0.3s var(--e2);
 }
-.arrows button:hover { transform: scale(1.06); }
-.arrows button:hover { background: var(--ink); color: var(--paper); }
+.arrows button:hover { background: var(--ink); color: var(--paper); transform: scale(1.06); }
 
 /* ---------- key figures ---------- */
 
@@ -1101,26 +1132,11 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
     padding: 0 var(--pad) 82px;
     gap: 20px;
   }
-  /* basis 0 — 사진 덩어리는 문구·버튼을 배치하고 남은 높이만 가져간다 */
-  .slide__media {
-    order: -1;
-    flex: 1 1 0;
-    min-height: 190px;
-    /* 폰에서는 메인 사진 아래에 제품 컷 두 장을 가로로 깐다 */
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 10px;
-    margin-inline: calc(var(--pad) * -1);
-    padding-inline: var(--pad);
-  }
-  .slide__fig { min-height: 0; margin-inline: calc(var(--pad) * -1); }
-  .slide__fig img { height: 100%; aspect-ratio: auto; border-radius: 0; }
-
-  .slide__thumbs { grid-template-rows: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .sthumb { flex-direction: row; align-items: center; gap: 10px; }
-  .sthumb__f { flex: 0 0 54px; height: 54px; border-radius: var(--r); }
-  .sthumb figcaption { margin-top: 0; font-size: 12px; white-space: normal; line-height: 1.35; }
-  .slide > div { flex: 0 0 auto; }
+  /* 장면은 문구·버튼을 배치하고 남은 높이를 가져간다.
+     .slide > div 로 잡으면 장면까지 걸려 flex 가 덮인다. 글 블록만 집는다. */
+  .slide__tx { flex: 0 0 auto; }
+  .scene { order: -1; flex: 1 1 0; min-height: 190px; height: auto; }
+  .slide__lbl { margin-bottom: 10px; }
   .slide__t { margin-top: 0; }
   .slide__d { max-width: none; }
   .slide__a { margin-top: 20px; }
@@ -1210,7 +1226,6 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   .tab { min-height: 48px; font-size: 13.5px; }
   .mt__r { grid-template-columns: 56px minmax(0, 1fr) 28px; gap: 10px; }
   .arrows button { width: 44px; height: 44px; }
-  .dots2 button { width: 30px; height: 3px; }
   .fl__pair { gap: 18px 32px; }
 
 }
@@ -2307,37 +2322,4 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   .cg--a .cg__cap b { font-size: 17px; }
 }
 
-/* ==========================================================================
-   히어로 — 메인 사진 + 제품 컷 2 + 아래 가로 사진 1
-   ========================================================================== */
 
-.slide__strip { margin: 0; position: relative; min-width: 0; overflow: hidden; border-radius: var(--r-lg); }
-.slide__strip img { width: 100%; height: 100%; object-fit: cover; }
-.slide__strip figcaption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 26px 16px 12px;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #fff;
-  background: linear-gradient(to top, rgba(20, 15, 12, 0.7), rgba(20, 15, 12, 0));
-}
-
-@media (min-width: 901px) {
-  /* 왼쪽 위 메인 사진 · 오른쪽 제품 컷 두 장 · 왼쪽 아래 가로 사진 */
-  .slide__media {
-    grid-template-rows: minmax(0, 1fr) clamp(96px, 11vh, 132px);
-  }
-  .slide__fig { grid-column: 1; grid-row: 1; }
-  .slide__thumbs { grid-column: 2; grid-row: 1 / 3; }
-  .slide__strip { grid-column: 1; grid-row: 2; }
-}
-
-@media (max-width: 900px) {
-  /* 폰에서는 가로 사진을 빼고 메인 + 제품 컷 두 장만 남긴다.
-     한 화면에 문구·버튼까지 들어가야 한다. */
-  .slide__strip { display: none; }
-}
