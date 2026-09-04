@@ -89,6 +89,19 @@ export default function Hero() {
                 />
               </figure>
 
+              {s.strip ? (
+                <figure className="slide__strip">
+                  <img
+                    src={s.strip.img}
+                    alt={s.strip.cap}
+                    loading="lazy"
+                    decoding="async"
+                    style={s.strip.pos ? { objectPosition: s.strip.pos } : undefined}
+                  />
+                  <figcaption>{s.strip.cap}</figcaption>
+                </figure>
+              ) : null}
+
               {s.thumbs?.length ? (
                 <div className="slide__thumbs">
                   {s.thumbs.map((t) => (

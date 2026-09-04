@@ -415,6 +415,9 @@ p.slide__t { margin-block-end: 0; }
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
+  /* 암묵 행이 사진 원본 높이로 잡히면 height:82% 가 그 행을 참조해 칸을
+     넘어간다. 콜라주 컷아웃 타일과 같은 함정이다. */
+  grid-template-rows: minmax(0, 1fr);
   place-items: center;
   overflow: hidden;
   border-radius: var(--r-lg);
@@ -2189,4 +2192,152 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 }
 @media (max-width: 420px) {
   .fl__sub figcaption { font-size: 11.5px; }
+}
+
+/* ==========================================================================
+   사진 콜라주 — 여섯 장을 한 판에
+   --------------------------------------------------------------------------
+   자리는 grid-template-areas 지도가 잡는다. 화면이 좁아지면 지도만 다시
+   그리므로 컴포넌트 쪽은 손댈 게 없다.
+   ========================================================================== */
+
+.collage { background: var(--cream); }
+
+.cg {
+  margin-top: clamp(38px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(2, clamp(150px, 17vw, 236px));
+  grid-template-areas:
+    "a a a b c d"
+    "a a a e e f";
+  gap: clamp(10px, 1.4vw, 18px);
+}
+
+.cg__i {
+  margin: 0;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--bg, var(--w));
+  isolation: isolate;
+}
+
+.cg__f { position: absolute; inset: 0; display: block; }
+.cg__f img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.1s var(--e);
+}
+.cg__i:hover .cg__f img { transform: scale(1.05); }
+
+/* 배경을 지운 컷아웃은 색 타일 위에 온전히 얹는다. 아래쪽은 캡션 자리로
+   비워 둬야 상자처럼 세로로 긴 컷이 글자를 덮지 않는다. */
+.cg__i--obj .cg__f {
+  display: grid;
+  /* 행을 minmax(0,1fr)로 묶지 않으면 암묵 행이 사진의 원본 높이만큼 잡히고,
+     img 의 height:100% 가 그 행을 다시 참조해 padding 을 그냥 넘어간다.
+     그러면 세로로 긴 상자 컷이 캡션을 덮는다. */
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  padding: clamp(12px, 1.6vw, 20px) clamp(12px, 1.6vw, 20px) 44px;
+}
+.cg__i--obj .cg__f img { width: 100%; height: 100%; object-fit: contain; }
+
+/* 캡션은 사진 위에 얹되, 컷아웃 타일에서는 밝은 바탕이라 글자를 어둡게 */
+.cg__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: clamp(30px, 4vw, 48px) clamp(14px, 1.6vw, 22px) clamp(13px, 1.4vw, 18px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(20, 15, 12, 0.72), rgba(20, 15, 12, 0));
+  pointer-events: none;
+}
+.cg__cap b { font-size: clamp(14px, 1.3vw, 17px); font-weight: 700; letter-spacing: -0.035em; }
+.cg__cap span { font-size: 12.5px; color: rgba(255, 255, 255, 0.78); line-height: 1.5; }
+
+.cg__i--obj .cg__cap {
+  padding-top: clamp(13px, 1.4vw, 18px);
+  background: none;
+  color: var(--ink);
+}
+.cg__i--obj .cg__cap b { color: var(--ink); }
+
+/* 큰 칸은 글자를 조금 키운다 */
+.cg--a .cg__cap b { font-size: clamp(17px, 1.9vw, 24px); }
+.cg--a .cg__cap span { font-size: 13.5px; }
+
+/* 태블릿: 3열 */
+@media (max-width: 1000px) {
+  .cg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, clamp(140px, 20vw, 200px));
+    grid-template-areas:
+      "a a b"
+      "a a c"
+      "d e f";
+  }
+}
+
+/* 폰: 2열 — 큰 칸이 위를 차지하고 나머지가 아래로 쌓인다 */
+@media (max-width: 620px) {
+  .cg {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: clamp(190px, 46vw, 250px) repeat(3, clamp(120px, 30vw, 160px));
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d f"
+      "e e";
+    gap: 10px;
+  }
+  .cg__cap { padding: 22px 12px 12px; }
+  .cg__i--obj .cg__f { padding: 10px 10px 38px; }
+  .cg__cap b { font-size: 13.5px; }
+  .cg__cap span { font-size: 11.5px; }
+  .cg--a .cg__cap b { font-size: 17px; }
+}
+
+/* ==========================================================================
+   히어로 — 메인 사진 + 제품 컷 2 + 아래 가로 사진 1
+   ========================================================================== */
+
+.slide__strip { margin: 0; position: relative; min-width: 0; overflow: hidden; border-radius: var(--r-lg); }
+.slide__strip img { width: 100%; height: 100%; object-fit: cover; }
+.slide__strip figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 16px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fff;
+  background: linear-gradient(to top, rgba(20, 15, 12, 0.7), rgba(20, 15, 12, 0));
+}
+
+@media (min-width: 901px) {
+  /* 왼쪽 위 메인 사진 · 오른쪽 제품 컷 두 장 · 왼쪽 아래 가로 사진 */
+  .slide__media {
+    grid-template-rows: minmax(0, 1fr) clamp(96px, 11vh, 132px);
+  }
+  .slide__fig { grid-column: 1; grid-row: 1; }
+  .slide__thumbs { grid-column: 2; grid-row: 1 / 3; }
+  .slide__strip { grid-column: 1; grid-row: 2; }
+}
+
+@media (max-width: 900px) {
+  /* 폰에서는 가로 사진을 빼고 메인 + 제품 컷 두 장만 남긴다.
+     한 화면에 문구·버튼까지 들어가야 한다. */
+  .slide__strip { display: none; }
 }

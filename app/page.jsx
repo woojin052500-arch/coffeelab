@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Brand from "@/components/Brand";
 import Band from "@/components/Band";
+import Collage from "@/components/Collage";
 import Process from "@/components/Process";
 import Flavor from "@/components/Flavor";
 import Taste from "@/components/Taste";
@@ -25,7 +26,7 @@ export default function Page() {
         <Process />
         <Flavor />
         <Taste />
-        <Band name="product" />
+        <Collage />
         <Products />
         <Proof />
         <Faq />
