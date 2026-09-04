@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { COMPANY, NAV } from "@/lib/content";
+import { openTest } from "./TestLauncher";
 
 export default function Header() {
   const [on, setOn] = useState(false);
@@ -59,9 +60,10 @@ export default function Header() {
             ))}
           </nav>
 
-          <a href="#contact" className="nav__cta btn">
-            문의하기
-          </a>
+          <button type="button" className="nav__cta btn btn--red" onClick={openTest}>
+            취향 테스트
+            <i className="btn__plus" aria-hidden="true" />
+          </button>
 
           <button
             type="button"
@@ -86,9 +88,20 @@ export default function Header() {
           </a>
         ))}
         <a href="#contact" onClick={() => setOpen(false)}>
-          <i>10</i>
+          <i>08</i>
           문의하기
         </a>
+        <button
+          type="button"
+          className="drawer__cta btn btn--red"
+          onClick={() => {
+            setOpen(false);
+            openTest();
+          }}
+        >
+          커피 취향 테스트 시작하기
+          <i className="btn__plus" aria-hidden="true" />
+        </button>
       </div>
     </>
   );

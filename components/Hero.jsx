@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SLIDES } from "@/lib/content";
+import { openTest } from "./TestLauncher";
 
 export default function Hero() {
   const [i, setI] = useState(0);
@@ -42,17 +43,38 @@ export default function Hero() {
             aria-hidden={k !== i}
           >
             <div>
-              <h1 className="slide__t">
-                {s.t[0]}
-                <br />
-                <b>{s.t[1]}</b>
-              </h1>
+              {/* h1은 문서에 하나만 둔다. 나머지 슬라이드 제목은 같은 모양의 문단. */}
+              {k === 0 ? (
+                <h1 className="slide__t">
+                  {s.t[0]}
+                  <br />
+                  <b>{s.t[1]}</b>
+                </h1>
+              ) : (
+                <p className="slide__t">
+                  {s.t[0]}
+                  <br />
+                  <b>{s.t[1]}</b>
+                </p>
+              )}
               <p className="slide__d">{s.d}</p>
               <div className="slide__a">
-                <a href={s.href} className="btn">
-                  {s.cta}
-                  <i className="btn__plus" aria-hidden="true" />
-                </a>
+                {s.test ? (
+                  <button
+                    type="button"
+                    className="btn btn--red"
+                    onClick={openTest}
+                    tabIndex={k === i ? 0 : -1}
+                  >
+                    {s.cta}
+                    <i className="btn__plus" aria-hidden="true" />
+                  </button>
+                ) : (
+                  <a href={s.href} className="btn" tabIndex={k === i ? 0 : -1}>
+                    {s.cta}
+                    <i className="btn__plus" aria-hidden="true" />
+                  </a>
+                )}
               </div>
             </div>
 
