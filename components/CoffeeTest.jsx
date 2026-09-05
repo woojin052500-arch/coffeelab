@@ -297,7 +297,6 @@ export default function CoffeeTest({ open, onClose }) {
                   >
                     <span className="qz-opt__i">{i === 0 ? "A" : "B"}</span>
                     <span className="qz-opt__t">{a.t}</span>
-                    <span className="qz-opt__g">{a.tag}</span>
                   </button>
                 ))}
               </div>

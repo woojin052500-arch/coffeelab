@@ -1821,11 +1821,11 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   position: relative;
   display: grid;
   grid-template-columns: 38px minmax(0, 1fr);
-  align-items: start;
-  gap: 4px 14px;
+  align-items: center;
+  gap: 14px;
   width: 100%;
-  min-height: 76px;
-  padding: 18px 18px 16px;
+  min-height: 74px;
+  padding: 16px 18px;
   text-align: left;
   background: var(--w);
   border: 1.5px solid var(--line);
@@ -1835,7 +1835,6 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 .qz-opt:hover { border-color: var(--red); transform: translateY(-2px); box-shadow: var(--sh); }
 .qz-opt.on { border-color: var(--red); background: rgba(190, 46, 46, 0.05); }
 .qz-opt__i {
-  grid-row: 1 / 3;
   width: 38px;
   height: 38px;
   display: grid;
@@ -1850,7 +1849,6 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 .qz-opt:hover .qz-opt__i,
 .qz-opt.on .qz-opt__i { background: var(--red); color: #fff; }
 .qz-opt__t { font-size: 15.5px; font-weight: 600; line-height: 1.6; letter-spacing: -0.032em; }
-.qz-opt__g { margin-top: 7px; font-size: 12px; font-weight: 500; color: var(--ink-3); }
 
 /* ---------- 결과 ---------- */
 
@@ -1966,7 +1964,6 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
     transform: translateY(3%);
   }
   .qz__top { padding-top: max(10px, env(safe-area-inset-top, 0px)); }
-  .qz-opt { min-height: 84px; }
   .qz-act .btn { flex: 1 1 100%; }
 
   /* 문항은 위에서 조금 내려온 자리에 두고 남는 높이는 아래로 흘린다.
@@ -1976,7 +1973,7 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   .qz-q { margin-top: clamp(0px, 5vh, 52px); margin-bottom: auto; width: 100%; }
   .qz-intro { margin-block: auto; width: 100%; }
   /* 선택지를 키워 한 손으로 누르기 쉽게 한다 */
-  .qz-opt { min-height: 96px; padding: 20px 18px; }
+  .qz-opt { min-height: 84px; padding: 18px 18px; }
   .qz-opt__t { font-size: 16px; }
 }
 
