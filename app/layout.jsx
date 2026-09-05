@@ -64,8 +64,11 @@ export const metadata = {
     description: DESC,
     images: [OG_IMAGE],
   },
-  // 서치콘솔·네이버 서치어드바이저 소유 확인 코드를 받으면 아래를 채운다.
-  // verification: { google: "...", other: { "naver-site-verification": "..." } },
+  verification: {
+    google: "b0Re8bRLomPAxLK_kvgfXX3lUafJtuijBWUQxdNVnTw",
+    // 네이버 서치어드바이저 코드를 받으면 아래를 채운다.
+    // other: { "naver-site-verification": "..." },
+  },
 };
 
 export const viewport = {
