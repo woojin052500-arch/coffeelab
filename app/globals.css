@@ -371,10 +371,59 @@ section[id] { scroll-margin-top: var(--nav); }
   padding-top: var(--nav);
   position: relative;
   overflow: hidden;
-  /* 제품 촬영 배경처럼 위는 밝고 아래로 갈수록 살짝 가라앉는 따뜻한 바닥 */
+  isolation: isolate;
+  background: #f4ede1;
+}
+
+/* 배경 사진 — 실험실 컷을 깔아 제품 촬영 배경처럼 쓴다 */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/img/lab-wide.webp");
+  background-size: cover;
+  background-position: center 34%;
+  opacity: 0.5;
+  filter: saturate(0.62) blur(2px);
+  transform: scale(1.05); /* blur 로 생기는 가장자리 흐림을 잘라낸다 */
+}
+
+/* 베일 — 글이 앉는 왼쪽은 두껍게 덮어 대비를 지키고, 제품이 서는 오른쪽은
+   얇게 덮어 배경이 드러나게 한다. 아래로는 바닥처럼 가라앉힌다. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background:
-    radial-gradient(120% 78% at 72% 24%, #fffdfa 0%, rgba(255, 253, 250, 0) 62%),
-    linear-gradient(to bottom, #f6f0e6 0%, #efe7d9 62%, #e8dece 100%);
+    linear-gradient(
+      to right,
+      rgba(250, 245, 236, 0.97) 0%,
+      rgba(250, 245, 236, 0.93) 32%,
+      rgba(250, 245, 236, 0.68) 56%,
+      rgba(250, 245, 236, 0.5) 100%
+    ),
+    linear-gradient(to bottom, rgba(255, 252, 246, 0.5) 0%, rgba(255, 252, 246, 0) 34%, rgba(226, 215, 198, 0.42) 100%);
+}
+
+/* 폰은 글이 사진 아래로 내려오므로 가로가 아니라 세로로 덮는다 */
+@media (max-width: 900px) {
+  .hero::after {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(250, 245, 236, 0.55) 0%,
+        rgba(250, 245, 236, 0.62) 38%,
+        rgba(250, 245, 236, 0.95) 58%,
+        rgba(250, 245, 236, 0.98) 100%
+      );
+  }
+}
+
+/* 배경 사진은 장식이다. 데이터 절약 환경에서는 걷어낸다. */
+@media (prefers-reduced-data: reduce) {
+  .hero::before { display: none; }
 }
 
 .hero__stage { position: relative; display: grid; }
@@ -2321,7 +2370,14 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 @media (max-width: 620px) {
   .cg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: clamp(190px, 46vw, 250px) repeat(3, clamp(120px, 30vw, 160px));
+    /* 줄마다 높이가 다르다. 과실은 정사각에 가깝고(2행), 세로로 긴 상자
+       컷은 더 높은 칸이라야 크게 보이며(3행), 세 상자 단체컷은 가로로 넓어
+       납작하면 상자 윗부분이 잘린다(4행). */
+    grid-template-rows:
+      clamp(190px, 46vw, 250px)
+      clamp(140px, 36vw, 178px)
+      clamp(170px, 44vw, 215px)
+      clamp(200px, 56vw, 252px);
     grid-template-areas:
       "a a"
       "b c"
@@ -2330,7 +2386,7 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
     gap: 10px;
   }
   .cg__cap { padding: 22px 12px 12px; }
-  .cg__i--obj .cg__f { padding: 10px 10px 38px; }
+  .cg__i--obj .cg__f { padding: 10px 10px 36px; }
   .cg__cap b { font-size: 13.5px; }
   .cg__cap span { font-size: 11.5px; }
   .cg--a .cg__cap b { font-size: 17px; }
