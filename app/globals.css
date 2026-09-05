@@ -1663,10 +1663,12 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
   border-radius: var(--r);
   background: color-mix(in srgb, var(--c, var(--red)) 9%, #fff);
   display: grid;
+  grid-template-rows: minmax(0, 1fr); /* .qz-res__fig 와 같은 이유 */
   place-items: center;
+  padding: 11%;
   overflow: hidden;
 }
-.tcard__f img { width: 78%; height: 78%; object-fit: contain; }
+.tcard__f img { width: 100%; height: 100%; object-fit: contain; }
 .tcard__k {
   display: inline-block;
   margin: 16px 0 0 6px;
@@ -1941,21 +1943,26 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 .qz-res__body {
   margin-top: clamp(20px, 2.6vw, 28px);
   display: grid;
-  grid-template-columns: 116px minmax(0, 1fr);
+  grid-template-columns: clamp(112px, 26%, 136px) minmax(0, 1fr);
   gap: clamp(16px, 2.4vw, 26px);
   align-items: center;
 }
 .qz-res__fig {
   margin: 0;
-  aspect-ratio: 1 / 1;
+  /* 상자 컷은 세로로 길다. 정사각 칸에 넣으면 작아지고 잘린다. */
+  aspect-ratio: 4 / 5;
   border-radius: var(--r);
   background: color-mix(in srgb, var(--c, var(--red)) 10%, #fff);
   border: 0;
   display: grid;
+  /* 행을 묶지 않으면 암묵 행이 사진 원본 높이로 잡히고 img 의 height 가
+     그 행을 되참조해 칸을 넘어간다 — overflow:hidden 에 아래가 잘린다 */
+  grid-template-rows: minmax(0, 1fr);
   place-items: center;
+  padding: 10px;
   overflow: hidden;
 }
-.qz-res__fig img { width: 76%; height: 76%; object-fit: contain; }
+.qz-res__fig img { width: 100%; height: 100%; object-fit: contain; }
 
 .qz-res__specs { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
 .qz-res__specs > div {
@@ -2045,7 +2052,7 @@ footer { background: var(--dark); color: rgba(250, 247, 241, 0.5); }
 
 @media (max-width: 420px) {
   .qz__scroll { padding-inline: 18px; }
-  .qz-res__body { grid-template-columns: 92px minmax(0, 1fr); gap: 14px; }
+  .qz-res__body { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
   .qz-mt li { grid-template-columns: 48px minmax(0, 1fr) 54px; gap: 9px; }
   .qz-res__specs > div { grid-template-columns: 64px minmax(0, 1fr); }
 }
