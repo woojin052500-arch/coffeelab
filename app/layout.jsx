@@ -66,8 +66,7 @@ export const metadata = {
   },
   verification: {
     google: "b0Re8bRLomPAxLK_kvgfXX3lUafJtuijBWUQxdNVnTw",
-    // 네이버 서치어드바이저 코드를 받으면 아래를 채운다.
-    // other: { "naver-site-verification": "..." },
+    other: { "naver-site-verification": "15956d252675eebce05a587866e4e86681489939" },
   },
 };
 
